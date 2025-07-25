@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predictive Maintenance ML Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif;
+            margin: 50px; }
+        .container { max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px; }
+        label, input, select {  width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049; }
+        .result { font-size: 1.5em;
+            color: #4CAF50;
+            text-align: center;
+            margin-top: 20px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center;">Predict Failure Type</h2>
+        <form method="POST">
+            <select name="Type" required>
+                <option value="">Select type</option>
+                <option value="L">L</option>
+                <option value="M">M</option>
+                <option value="H">H</option>
+            </select>
+            <label>Air temperature [K]:<input type="number" step="any" name="Air temperature [K]" required></label>
+            <label>Process temperature [K]:<input type="number" step="any" name="Process temperature [K]" required></label>
+            <label>Rotational speed [rpm]:<input type="number" step="any" name="Rotational speed [rpm]" required></label>
+            <label>Torque [Nm]:<input type="number" step="any" name="Torque [Nm]" required></label>
+            <label>Tool wear [min]:<input type="number" step="any" name="Tool wear [min]" required></label>
+            <input type="submit" value="Predict">
+        </form>
+        {% if prediction_text %}
+            <div class="result">{{ prediction_text }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
