@@ -4,7 +4,6 @@ import pickle
 import streamlit as st
 from sklearn.preprocessing import StandardScaler
 
-
 st.title('Predictive Maintenance Classification')
 
 product_type=st.selectbox('Select Product Type', options=['L', 'M', 'H'])
@@ -30,7 +29,7 @@ def scale_features(features):
     # Load the scaler you saved during training
     with open("scaler.pkl", "rb") as f:
         scaler = pickle.load(f)
-    return scaler.transform([features])   # keep it 2D (1, n_features)
+    return scaler.transform([features])  
 
 # Prepare feature vector
 features = [Air_temperature, Process_temperature, Rotational_speed, Torque, Tool_wear]
