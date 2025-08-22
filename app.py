@@ -8,6 +8,10 @@ from flask import Flask, request, render_template
 with open('predictive_maintenance.pkl', 'rb') as f:
     model = pickle.load(f)
 
+# Load scaler
+with open('scaler.pkl', 'rb') as f:
+    scaler = pickle.load(f)
+
 app = Flask(__name__)
 
 # List of features
@@ -40,6 +44,16 @@ def index():
                 float(request.form['Tool wear [min]'])
             ]
             input_df = pd.DataFrame([features], columns=FEATURES)
+
+            # Split type vs numeric
+            type_col = input_df[['Type']]
+            numeric_cols = input_df.drop(columns=['Type'])
+            
+            # Scale only numeric features
+            numeric_scaled = scaler.transform(numeric_cols)
+            
+            # Combine Type (unscaled) with scaled features
+            final_input = np.concatenate([type_col.values, numeric_scaled], axis=1)
             
             # Model Prediction
             prediction = model.predict(input_df)[0]
